@@ -1,0 +1,28 @@
+CREATE DATABASE school_db;
+
+
+CREATE TABLE students (
+    student_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(20) CHECK (first_name ~ '^[A-Za-z]+$'),
+    last_name  VARCHAR(30) CHECK (last_name ~ '^[A-Za-z]+$'),
+    email      VARCHAR(50) UNIQUE,
+    phone      VARCHAR(10) UNIQUE CHECK (phone ~ '^[0-9]{10}$'),
+    dob        DATE CHECK (dob < CURRENT_DATE),
+    gender     VARCHAR(10),
+    address    VARCHAR(200),
+    course     VARCHAR(50),
+    age        INTEGER
+);
+
+
+INSERT INTO students
+(student_id, first_name, last_name, email, phone, dob, gender, address, course, age)
+VALUES
+(1, 'Amit',  'Sharma',  'amit.sharma@example.com',  '9876543210', '2010-05-14', 'Male',   'Mumbai, Maharashtra', 'Science', 15),
+(2, 'Neha',  'Patel',   'neha.patel@example.com',   '9123456780', '2011-11-22', 'Female', 'Pune, Maharashtra',   'Commerce',       14),
+(3, 'Rahul', 'Verma',   'rahul.verma@example.com',  '9988776655', '2003-03-09', 'Male',   'Flat No 1204, Galaxy Residency, Near Powai Lake, Hiranandani Gardens, Powai, Mumbai, Maharashtra, India', 'Arts', 22),
+(4, 'Priya', 'Joshi',   'priya.joshi@example.com',   '9090909090', '2002-08-30', 'Female', 'Navi Mumbai, Maharashtra', 'Science', 23),
+(5, 'Suresh','Kumar',   'suresh.kumar@example.com',  '9765432109', '2000-12-18', 'Male',   'Nagpur, Maharashtra', 'Vocational Courses', 25);
+
+
+SELECT * from students;
