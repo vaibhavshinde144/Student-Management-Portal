@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+    function goPreviousPage() {
+        window.history.back();
+    }
+	</script>
+    <title>Student Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("images/bg_education.png") no-repeat center center fixed;
+            background-size: cover;
+            padding: 40px;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: darkblue;
+            margin-left: 90px;
+        }
+
+        form {
+            width: 450px;
+            margin-left: 50px;
+            padding: 20px;
+        }
+
+        label {
+            display: inline-block;
+            width: 140px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            vertical-align: top;
+        }
+
+        .required {
+            color: red;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 200px;
+            padding: 5px;
+            margin-bottom: 12px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .btn {
+            margin: 8px;
+            padding: 4px 40px;
+            font-size: 17px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .submit-btn { background-color: green; }
+        .reset-btn { background-color: gray; }
+        .home-btn { background-color: teal; text-decoration: none; }
+        .student-btn { background-color: navy; text-decoration: none; }
+	.back-btn { background-color: #a0522d; }
+
+        .btn-row {
+            margin-top: 10px;
+        }
+    </style>
+
+    <script>
+        function validateForm() {
+            let fname = document.forms["regForm"]["fname"].value.trim();
+            let lname = document.forms["regForm"]["lname"].value.trim();
+            let phone = document.forms["regForm"]["phone"].value.trim();
+            let dob = document.forms["regForm"]["dob"].value;
+
+            document.forms["regForm"]["fname"].value = fname;
+            document.forms["regForm"]["lname"].value = lname;
+            document.forms["regForm"]["phone"].value = phone;
+            document.forms["regForm"]["email"].value = document.forms["regForm"]["email"].value.trim();
+            document.forms["regForm"]["address"].value = document.forms["regForm"]["address"].value.trim();
+
+            let nameRegex = /^[A-Za-z]+$/;
+            if (!nameRegex.test(fname)) {
+                alert("First Name must contain only alphabets.");
+                return false;
+            }
+
+            if (!nameRegex.test(lname)) {
+                alert("Last Name must contain only alphabets.");
+                return false;
+            }
+
+            let phoneRegex = /^[0-9]{10}$/;
+            if (!phoneRegex.test(phone)) {
+                alert("Phone Number must be 10 digits numeric.");
+                return false;
+            }
+
+            let today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            let dobDate = new Date(dob);
+            if (dobDate >= today) {
+                alert("DOB must be less than today's date.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h2>Student Registration Form</h2>
+
+    <form id="regForm" name="regForm" method="post" action="StudentServlet" onsubmit="return validateForm()">
+        <label>First Name:<span class="required">*</span></label>
+        <input type="text" name="fname" maxlength="20" required><br>
+
+        <label>Last Name:<span class="required">*</span></label>
+        <input type="text" name="lname" maxlength="30" required><br>
+
+        <label>Email:<span class="required">*</span></label>
+        <input type="email" name="email" maxlength="50" required><br>
+
+        <label>Phone Number:<span class="required">*</span></label>
+        <input type="text" name="phone" maxlength="10" required><br>
+
+        <label>Date of Birth:<span class="required">*</span></label>
+        <input type="date" name="dob" required><br>
+
+        <label>Gender:<span class="required">*</span></label>
+        <input type="radio" name="gender" value="Male" required>Male
+        <input type="radio" name="gender" value="Female">Female
+        <input type="radio" name="gender" value="Other">Other<br>
+
+        <label>Address:<span class="required">*</span></label>
+        <textarea name="address" maxlength="200" required></textarea><br>
+
+        <label>Course:<span class="required">*</span></label>
+        <select name="course" required>
+            <option value="">--Select--</option>
+            <option value="Science">Science</option>
+            <option value="Commerce">Commerce</option>
+            <option value="Arts">Arts</option>
+            <option value="Vocational Courses">Vocational Courses</option>
+        </select><br>
+
+        <div class="btn-row">
+            <input type="submit" value="Register" class="btn submit-btn">
+            <input type="reset" value="Reset" class="btn reset-btn">
+        </div>
+
+        <div class="btn-row">
+            <a href="Index.html" class="btn home-btn">Home</a>
+            <a href="student.html" class="btn student-btn">Student Portal</a>
+	    <button type="button" class="btn back-btn" onclick="goPreviousPage()">Previous Page</button>
+        </div>
+    </form>
+</body>
+</html>

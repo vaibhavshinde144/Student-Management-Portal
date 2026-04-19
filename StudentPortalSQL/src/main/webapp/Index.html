@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VS School - Student Management Portal</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url("images/vs_school_banner.jpg") no-repeat center center fixed;
+            background-size: cover;
+        }
+        .overlay {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* push content upward */
+            align-items: flex-end;       /* keep text on right side */
+            text-align: right;
+            color: white;
+            padding: 60px 80px 0 20px;   /* top padding moves text upward */
+        }
+        h1 {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        p {
+            max-width: 400px;
+            margin-bottom: 30px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center; /* center buttons horizontally */
+            gap: 130px;               /* more gap between buttons */
+            margin-top: 150px;        /* keep buttons closer to text */
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+        .student-btn { background-color: red; }
+        .admin-btn { background-color: goldenrod; }
+        .doc-btn { background-color: gray; }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <h1>WELCOME ON OUR SITE</h1>
+        <h2>VS School</h2>
+        <p>Manage Students, Teachers, and Resources Efficiently with Our Comprehensive School Portal.</p>
+
+        <div class="button-container">
+            <a href="student.html" class="btn student-btn">🎓 Student Portal</a>
+            <a href="login.html" class="btn admin-btn">👩‍🏫 Admin/Teachers Portal</a>
+            <a href="images/explanation.pdf" class="btn doc-btn" target="_blank">📄 Explanation Document</a>
+        </div>
+    </div>
+</body>
+</html>

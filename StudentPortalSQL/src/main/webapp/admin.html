@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("images/bg_admin.png") no-repeat center center fixed;
+            background-size: cover;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .top-bar {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .home-btn {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            background-color: teal;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .add-btn {
+            position: absolute;
+            right: 150px;
+            top: 10px;
+            background-color: orange;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .export-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background-color: green;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        h2 {
+            text-align: center;
+            color: darkblue;
+            font-size: 38px;
+            margin: 10px 0 20px 0;
+        }
+
+        .filter-box {
+            background: rgba(255,255,255,0.93);
+            padding: 20px;
+            margin: 0 auto 20px auto;
+            width: 96%;
+            box-sizing: border-box;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px 20px;
+            align-items: end;
+        }
+
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-item label {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .filter-item input,
+        .filter-item select {
+            padding: 6px 8px;
+            font-size: 13px;
+            height: 34px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .checkbox-row {
+            grid-column: 1 / span 3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-top: 8px;
+        }
+
+        .checkbox-row label {
+            font-weight: bold;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .button-row {
+            grid-column: 4 / span 2;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding-top: 4px;
+        }
+
+        .filter-btn, .clear-btn {
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            min-width: 90px;
+        }
+
+        .filter-btn {
+            background-color: navy;
+        }
+
+        .clear-btn {
+            background-color: gray;
+        }
+
+        .table-wrap {
+            width: 96%;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.95);
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 6px 10px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .update-btn {
+            background-color: #f39c12;
+        }
+
+        .delete-btn {
+            background-color: #d9534f;
+        }
+
+        .bottom-bar {
+            width: 96%;
+            margin: 18px auto 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pagination button {
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        #pageInfo {
+            font-weight: bold;
+        }
+
+        .msg {
+            width: 96%;
+            margin: 10px auto;
+            font-weight: bold;
+        }
+
+        .edit-input, .edit-select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 5px;
+            font-size: 13px;
+        }
+
+        .readonly-cell {
+            font-weight: normal;
+        }
+
+        @media (max-width: 1200px) {
+            .filter-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .checkbox-row {
+                grid-column: 1 / span 2;
+            }
+
+            .button-row {
+                grid-column: 3 / span 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filter-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .checkbox-row,
+            .button-row {
+                grid-column: 1 / -1;
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="Index.html" class="home-btn">Home</a>
+        <h2>Student Details</h2>
+        <a href="register.html" class="add-btn">Add Student</a>
+        <button class="export-btn" type="button" onclick="exportExcel()">Export Excel</button>
+    </div>
+
+    <div class="filter-box">
+        <form id="filterForm">
+            <div class="filter-grid">
+                <div class="filter-item">
+                    <label for="student_id">Student ID</label>
+                    <input type="text" id="student_id" name="student_id">
+                </div>
+
+                <div class="filter-item">
+                    <label for="first_name">First Name</label>
+                    <input type="text" id="first_name" name="first_name">
+                </div>
+
+                <div class="filter-item">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" id="last_name" name="last_name">
+                </div>
+
+                <div class="filter-item">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email">
+                </div>
+
+                <div class="filter-item">
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" name="phone">
+                </div>
+
+                <div class="filter-item">
+                    <label for="from_dob">From DOB</label>
+                    <input type="date" id="from_dob" name="from_dob">
+                </div>
+
+                <div class="filter-item">
+                    <label for="to_dob">To DOB</label>
+                    <input type="date" id="to_dob" name="to_dob">
+                </div>
+
+                <div class="filter-item">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label for="course">Course</label>
+                    <select id="course" name="course">
+                        <option value="">Select Course</option>
+                        <option value="Science">Science</option>
+                        <option value="Commerce">Commerce</option>
+                        <option value="Arts">Arts</option>
+                        <option value="Vocational Courses">Vocational Courses</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label>&nbsp;</label>
+                    <div class="checkbox-row" style="padding-top:0;">
+                        <input type="checkbox" id="age18" name="age18" style="width:auto; height:auto;">
+                        <label for="age18">Student older than 18 years</label>
+                    </div>
+                </div>
+
+                <div class="button-row">
+                    <button type="submit" class="filter-btn">Filter</button>
+                    <button type="button" class="clear-btn" onclick="clearFilters()">Clear</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="messageBox" class="msg"></div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>DOB</th>
+                    <th>Gender</th>
+                    <th>Address</th>
+                    <th>Course</th>
+                    <th>Age</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="studentTableBody">
+                <tr><td colspan="12">Loading student data...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="bottom-bar">
+        <div class="pagination">
+            <button type="button" onclick="prevPage()">Previous</button>
+            <span id="pageInfo">Page 1 of 1</span>
+            <button type="button" onclick="nextPage()">Next</button>
+        </div>
+        <div id="totalStudents">Total Registered Students: 0</div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let totalPages = 1;
+
+        async function loadStudents(page = 1) {
+            currentPage = page;
+
+            const form = document.getElementById("filterForm");
+            const params = new URLSearchParams(new FormData(form));
+            params.set("page", currentPage);
+
+            try {
+                const response = await fetch("AdminServlet?" + params.toString());
+                const data = await response.json();
+
+                document.getElementById("studentTableBody").innerHTML = data.rowsHtml;
+                document.getElementById("totalStudents").innerText =
+                    "Total Registered Students: " + data.totalRecords;
+
+                totalPages = data.totalPages;
+                document.getElementById("pageInfo").innerText =
+                    "Page " + data.currentPage + " of " + data.totalPages;
+            } catch (error) {
+                document.getElementById("studentTableBody").innerHTML =
+                    "<tr><td colspan='12' style='color:red;'>Error loading student data.</td></tr>";
+            }
+        }
+
+        document.getElementById("filterForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            loadStudents(1);
+        });
+
+        function clearFilters() {
+            document.getElementById("filterForm").reset();
+            loadStudents(1);
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                loadStudents(currentPage - 1);
+            }
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                loadStudents(currentPage + 1);
+            }
+        }
+
+        async function deleteStudent(studentId) {
+            if (!confirm("Are you sure you want to delete this student?")) return;
+
+            const formData = new URLSearchParams();
+            formData.append("action", "delete");
+            formData.append("student_id", studentId);
+
+            const response = await fetch("AdminServlet", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: formData.toString()
+            });
+
+            const msg = await response.text();
+            document.getElementById("messageBox").innerHTML = msg;
+            loadStudents(currentPage);
+        }
+
+        async function updateStudent(studentId) {
+            const row = document.getElementById("row-" + studentId);
+
+            const formData = new URLSearchParams();
+            formData.append("action", "update");
+            formData.append("student_id", studentId);
+            formData.append("first_name", row.querySelector("[name='first_name']").value);
+            formData.append("last_name", row.querySelector("[name='last_name']").value);
+            formData.append("email", row.querySelector("[name='email']").value);
+            formData.append("phone", row.querySelector("[name='phone']").value);
+            formData.append("dob", row.querySelector("[name='dob']").value);
+            formData.append("gender", row.querySelector("[name='gender']").value);
+            formData.append("address", row.querySelector("[name='address']").value);
+            formData.append("course", row.querySelector("[name='course']").value);
+
+            const response = await fetch("AdminServlet", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: formData.toString()
+            });
+
+            const msg = await response.text();
+            document.getElementById("messageBox").innerHTML = msg;
+            loadStudents(currentPage);
+        }
+
+        function exportExcel() {
+            window.location.href = "AdminServlet?action=export";
+        }
+
+        window.onload = function() {
+            loadStudents(1);
+        };
+    </script>
+</body>
+</html>

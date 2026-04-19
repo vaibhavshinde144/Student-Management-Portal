@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Student</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("images/bg_education.png") no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+            padding-top: 80px;
+        }
+        table { margin: auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; }
+    </style>
+</head>
+<body>
+    <h2>View Student Details</h2>
+
+    <form action="ViewStudents" method="get">
+        <label>Enter Student ID:</label>
+        <input type="text" name="student_id" required>
+        <input type="submit" value="View Details">
+    </form>
+
+    <!-- Servlet output will appear here -->
+</body>
+</html>

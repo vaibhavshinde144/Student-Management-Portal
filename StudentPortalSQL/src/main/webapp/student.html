@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("images/bg_education.png") no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+            padding-top: 80px;
+        }
+        h2 {
+            font-size: 60px;              /* bigger text */
+            font-family: "Georgia", serif; /* stylish font */
+            font-weight: bold;
+            color: darkblue;              /* stylish color */
+            text-shadow: 4px 4px 6px #aaa; /* subtle shadow for effect */
+            margin-bottom: 20px;
+        }
+        .btn {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+        .home-btn { background-color: teal; }
+        .register-btn { background-color: green; }
+        .view-btn { background-color: navy; }
+    </style>
+</head>
+<body>
+    <h2>Student Portal</h2>
+
+    <!-- Student ID input for viewing details -->
+    <form action="ViewStudents" method="get">
+        <label>Enter Student ID:</label>
+        <input type="text" name="student_id" required>
+        <input type="submit" value="View Student Detail" class="btn view-btn">
+    </form>
+
+    <br>
+    <!-- Buttons -->
+    <a href="register.html" class="btn register-btn">Register New Student</a>
+    <a href="Index.html" class="btn home-btn">Home</a>
+</body>
+</html>
